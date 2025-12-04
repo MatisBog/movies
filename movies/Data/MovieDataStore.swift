@@ -17,32 +17,42 @@ class MovieDataStore {
     }
     
     func getMovies() -> [Movie]{
-        
+        return movies.movies
     }
     
     func getMovies(actor: Actor) -> [Movie]{
-        
+        return movies.movies.filter { movie in
+            movie.actors.contains(actor)
+        }
     }
     
     func getMovies(director : Director) -> [Movie]{
-        
+        return movies.movies.filter { movie in
+            movie.director == director
+        }
     }
     
-    func getActors(director : Director) -> [Movie]{
+    func getActors(director : Director) -> [Actor]{
+        var actors : [Actor] = []
         
+        for movie in movies.movies where movie.director == director {
+            actors.append(contentsOf: movie.actors)
+        }
+        return actors
     }
     
     private func sort() {
-        
+        movies.movies = movies.movies.sorted()
     }
     
     func loadData() async {
         do{
-            let jsonData : [Movie] = try load("movies.json")
+            movies.movies = try load("movies.json")
+            sort()
         }
         catch{
             print("Failed to load uurrooster",error)
-            movies = Movies()
+            movies.movies = []
         }
     }
 }
