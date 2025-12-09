@@ -24,28 +24,24 @@ struct ContentView: View {
                                 Text(movie.title).bold()
                                 Text(movie.description)
                                 Divider()
-                            }.navigationDestination(for: Route.self) { route in
-                                switch route {
-                                case let .actor(actor : actor):
-                                    ActorView(actor : actor)
-                                case let .director(director : director):
-                                    DirectorView(director : director)
-                                case let .movie(movie: movie):
-                                    MovieDetailView(movie:  movie)
-                                }
-                                }
                             }
+                        }
+                    }
+                    .navigationDestination(for: Route.self) { route in
+                        switch route {
+                        case let .actor(actor : actor):
+                            ActorView(actor : actor)
+                        case let .director(director : director):
+                            DirectorView(director : director)
+                        case let .movie(movie: movie):
+                            MovieDetailView(movie:  movie)
+                        }
                     }
                 }
             }
         }.task {
             await movieDataStore.loadData()
-            loading = false
-        }
-        
+            loading = false}
     }
 }
 
-#Preview {
-    ContentView()
-}
