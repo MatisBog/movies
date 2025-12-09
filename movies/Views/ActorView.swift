@@ -19,9 +19,13 @@ struct ActorView: View {
                 .foregroundStyle(.red)
             Text("Birthday : \(actor.birthday)")
             
-            List(movieDataStore.getMovies(actor: actor), id: \.self, selection: $pathstore) { movie in
-                NavigationLink(value: Route.movie(<#T##Movie#>), label: <#T##() -> View#>)
+            Divider()
+            Text("Movie(s)").bold()
+            ForEach(movieDataStore.getMovies(actor: actor), id: \.self) { movie in
+                NavigationLink("\(movie.title)", value: Route.movie(movie)).foregroundStyle(.red)
             }
+            Divider()
+            PathView()
         }
     }
 }

@@ -47,7 +47,7 @@ class MovieDataStore {
     
     func loadData() async {
         do{
-            movies.movies = try load("movies.json")
+            movies = try load("movies.json")
             sort()
         }
         catch{

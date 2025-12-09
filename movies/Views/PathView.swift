@@ -10,7 +10,30 @@ import SwiftUI
 struct PathView: View {
     @Environment(PathStore.self) var pathStore
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            
+            Text("Overview navigationStack").bold()
+            
+            ForEach(pathStore.path.enumerated(), id: \.offset) { index, pathEL in
+                switch pathEL {
+                case let .actor(pathEL):
+                    Button("\(pathEL.firstName) \(pathEL.lastName)") {
+                        pathStore.path = Array(pathStore.path.prefix(index + 1))
+                    }
+                case let .director(pathEL):
+                    Button("\(pathEL.firstName) \(pathEL.lastName)") {
+                        pathStore.path = Array(pathStore.path.prefix(index + 1))
+                    }
+                case let .movie(pathEL):
+                    Button("\(pathEL.title)") {
+                        pathStore.path = Array(pathStore.path.prefix(index + 1))
+                    }
+                }
+            }
+            Button("Clear") {
+                pathStore.path = [Route]()
+            }
+        }
     }
 }
 
